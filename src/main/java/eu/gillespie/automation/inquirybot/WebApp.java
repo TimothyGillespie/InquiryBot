@@ -7,6 +7,8 @@ import org.javawebstack.httpserver.HTTPServer;
 import org.javawebstack.injector.Injector;
 import org.javawebstack.orm.exception.ORMConfigurationException;
 import org.javawebstack.orm.wrapper.SQL;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -14,6 +16,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.util.LinkedList;
+
+import static org.quartz.JobBuilder.newJob;
 
 public class WebApp extends WebApplication {
 
@@ -31,6 +35,30 @@ public class WebApp extends WebApplication {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+
+        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        try {
+            Scheduler scheduler = schedulerFactory.getScheduler();
+
+
+            JobDetail jobDetail = newJob(AskForFileJob.class)
+                    .build();
+
+            Trigger trigger = TriggerBuilder.newTrigger()
+                    .startNow()
+                    .withSchedule(CronScheduleBuilder
+                            .dailyAtHourAndMinute(13, 33)
+                    ).build();
+
+            scheduler.scheduleJob(jobDetail, trigger);
+            scheduler.start();
+
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
     }
 
     @Override
