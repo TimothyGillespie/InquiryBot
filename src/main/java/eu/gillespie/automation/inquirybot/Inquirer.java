@@ -16,8 +16,8 @@ import static eu.gillespie.automation.inquirybot.PropertyLoader.loadProperty;
 
 public class Inquirer extends TelegramLongPollingBot {
 
-    final String inquireeChatId;
-    final String inquirerChatId;
+    public final String inquireeChatId;
+    public final String inquirerChatId;
 
 
     Inquirer() {
