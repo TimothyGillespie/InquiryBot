@@ -38,24 +38,38 @@ public class Inquirer extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if(update.hasMessage() && update.getMessage().hasDocument() && update.getMessage().getChatId().toString().equals(this.inquireeChatId)) {
-            InputStream document = getFileById(update.getMessage().getDocument().getFileId());
+        if (update.getMessage().getChatId().toString().equals(this.inquireeChatId) && update.hasMessage()) {
 
-            if(document != null) {
-                InputFile inputFile = new InputFile();
-                inputFile.setMedia(document, "providedFileFrom" + update.getMessage().getFrom().getFirstName() + update.getMessage().getFrom().getLastName());
+            if (update.getMessage().hasDocument()) {
+                InputStream document = getFileById(update.getMessage().getDocument().getFileId());
 
-                SendDocument sendDocument = new SendDocument();
-                sendDocument.setChatId(this.inquirerChatId);
-                sendDocument.setDocument(inputFile);
+                if (document != null) {
+                    InputFile inputFile = new InputFile();
+                    inputFile.setMedia(document, "providedFileFrom" + update.getMessage().getFrom().getFirstName() + update.getMessage().getFrom().getLastName());
 
+                    SendDocument sendDocument = new SendDocument();
+                    sendDocument.setChatId(this.inquirerChatId);
+                    sendDocument.setDocument(inputFile);
+
+                    try {
+                        execute(sendDocument);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                        SendMessage errorMessage = new SendMessage();
+                        errorMessage.setChatId(this.inquirerChatId);
+                        errorMessage.setText("An error occured.");
+                    }
+                }
+            }
+
+            if (update.getMessage().hasText()) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(this.inquirerChatId);
+                sendMessage.setText("Von " + update.getMessage().getFrom().getFirstName() + " " + update.getMessage().getFrom().getLastName() + ": " + update.getMessage().getText());
                 try {
-                    execute(sendDocument);
+                    execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
-                    SendMessage errorMessage = new SendMessage();
-                    errorMessage.setChatId(this.inquirerChatId);
-                    errorMessage.setText("An error occured.");
                 }
             }
         }
