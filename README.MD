@@ -1,3 +1,5 @@
+(This repository is not well designed and does not use good coding standards. It is a quick and dirty project for some samll utility and meant as a joke.)
+
 # Inquiry Bot
 
 Sometimes you just need to inquire multiple times,
