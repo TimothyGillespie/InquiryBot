@@ -21,6 +21,9 @@ public class AskForFileJob implements Job {
         sendMessage.setText(Objects.requireNonNull(loadProperty("inquiry.ask-for-file-text")));
         try {
             inquirer.execute(sendMessage);
+
+            sendMessage.setChatId(inquirer.inquirerChatId);
+            inquirer.execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
