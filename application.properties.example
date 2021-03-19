@@ -1,0 +1,5 @@
+telegram.api-key=YourAPIKey
+telegram.bot-name=YourBotName
+
+inquiry.inquiree-chat-id=123456789
+inquiry.inquirer-chat-id=987654321
