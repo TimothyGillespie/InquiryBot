@@ -5,11 +5,11 @@ import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloade
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.File;
 import java.io.InputStream;
 
 import static eu.gillespie.automation.inquirybot.PropertyLoader.loadProperty;
@@ -65,7 +65,7 @@ public class Inquirer extends TelegramLongPollingBot {
         GetFile getFile = new GetFile();
         getFile.setFileId(fileId);
         try {
-            var file = execute(getFile);
+            File file = execute(getFile);
             return new TelegramFileDownloader(this::getBotToken).downloadFileAsStream(file);
         } catch (TelegramApiException e) {
             e.printStackTrace();
