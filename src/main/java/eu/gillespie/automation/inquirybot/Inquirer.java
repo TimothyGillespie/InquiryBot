@@ -38,7 +38,7 @@ public class Inquirer extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if(update.hasMessage() && update.getMessage().hasDocument()) {
+        if(update.hasMessage() && update.getMessage().hasDocument() && update.getMessage().getChatId().toString().equals(this.inquireeChatId)) {
             InputStream document = getFileById(update.getMessage().getDocument().getFileId());
 
             if(document != null) {
