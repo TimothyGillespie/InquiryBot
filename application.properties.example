@@ -4,4 +4,4 @@ telegram.bot-name=YourBotName
 inquiry.inquiree-chat-id=123456789
 inquiry.inquirer-chat-id=987654321
 
-inquiry.ask-for-file-text="Hi! Could you please upload the needed files in this chat here? Thanks!"
+inquiry.ask-for-file-text=Hi! Could you please upload the needed files in this chat here? Thanks!
